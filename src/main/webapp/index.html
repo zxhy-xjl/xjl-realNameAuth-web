@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>演示</title>
+<script type="text/javascript" src="js/jquery-2.2.2.js"></script>
+<script type="text/javascript">
+//登陆，显示实名认证待办任务
+function logon(){
+	if (!$("#phone").val()){
+		alert("手机号码不能为空");
+		return;
+	}
+	if (!$("#passwd").val()){
+		alert("密码不能为空");
+		return;
+	}
+$.ajax({
+	  url: 'rest/realNameAuth/logon',
+	  dataType: 'json',
+	  type:'post',  
+	  data: {'phone':$("#phone").val(),'passwd':$("#passwd").val()},
+	  success: function(data){
+		  showRealNameAuthTask(data);
+	  },
+	  error:function (XMLHttpRequest, textStatus, errorThrown) {
+		  alert(JSON.parse(XMLHttpRequest.responseText).errmsg);
+	  }
+	});
+}
+function showRealNameAuthTask(task){
+	console.log(task);
+	if (task && task.taskId){
+		$("#taskButton").unbind('click');
+		$("#taskButton").val("点击完成" + task.taskName);
+		$("#taskButton").click(function(){
+            finishTask(task.taskId, task.taskName);
+		});
+	} else {
+		$("#taskButton").val("实名认证没有任务");
+		$("#taskButton").unbind('click');
+	}
+}
+function register(){
+	if (!$("#phone").val()){
+		alert("手机号码不能为空");
+		return;
+	}
+	if (!$("#passwd").val()){
+		alert("密码不能为空");
+		return;
+	}
+$.ajax({
+	  url: 'rest/realNameAuth/register',
+	  dataType: 'json',
+	  type:'post',  
+	  data: {'phone':$("#phone").val(),'passwd':$("#passwd").val()},
+	  success: function(data){
+		  showRealNameAuthTask(data.realNameAuthTask);
+	  },
+	  error:function (XMLHttpRequest, textStatus, errorThrown) {
+		  alert(JSON.parse(XMLHttpRequest.responseText).errmsg);
+	  }
+	});
+}
+function finishTask(taskId, taskName){
+	if (!$("#phone").val()){
+		alert("手机号码不能为空");
+		return;
+	}
+	if (!$("#passwd").val()){
+		alert("密码不能为空");
+		return;
+	}
+	$.ajax({
+	  url: 'rest/realNameAuth/finishTask',
+	  dataType: 'json',
+	  type:'post',  
+	  data: {'phone':$("#phone").val(),'passwd':$("#passwd").val(),'taskName':taskName,'taskId':taskId},
+	  success: function(data){
+		  showRealNameAuthTask(data);
+	  },
+	  error:function (XMLHttpRequest, textStatus, errorThrown) {
+		  alert(JSON.parse(XMLHttpRequest.responseText).errmsg);
+	  }
+	});
+}
+</script>
+</head>
+<body>
+手机<input name="phone" id="phone"/><br>
+密码<input id="passwd"/>
+
+<button title="注册" onclick="register()">注册</button><button onclick="logon()">登陆</button>
+<div id="realNameAuth">
+<input type="button" id="taskButton" value="实名认证（请先登陆）">
+</div>
+</body>
+</html>
