@@ -1,0 +1,79 @@
+/* Table*/
+.table_class{
+	text-align:center;
+	margin:15% 0 0 0%;
+	padding:5px;
+	height:250px;
+	border:0px; 
+}
+/* check Face*/
+.checkFaceTable_class{
+	text-align:center;
+	margin:10% 0 0 0%;
+	padding:5px;
+	border:0px; 
+}
+.td_class{
+	width:50%;
+	height:400px;
+}
+/*show Photo*/
+.showPhotoTable_class{
+	text-align:center;
+	margin:0 0 0 0%;
+	padding:5px;
+	border:0px;
+}
+/*input*/ 
+.input{ 
+    /*height:16px;默认高度*/ 
+    padding:2px 8px 0pt 3px; 
+    height:25px; 
+    border:1px solid #CCC; 
+    background-color:#FFF; 
+    width:15%;
+} 
+/*button*/ 
+.button{
+	width:10%;
+	padding:2px 8px 2pt 10px;
+	margin-left:5%;
+}
+/*retrieve password*/
+.retrieve{
+	color:blue;
+	font-size:14px;
+	margin-left:20%; 
+}
+/*showError td*/
+.showError{
+	height:30px;
+}
+/*showError td div*/
+.showError_div{
+	background-color:#FFF8ED;
+	width:300px;
+	height:30px;
+	display:none;
+	text-align:center;
+	line-height:30px;
+	vertical-align:middle;
+	margin-left:5%;
+	font-size:12px;
+	font-family:黑体;
+}
+/*showCount_class*/
+.showCount_class{
+	margin-left:60px;
+	font-size:13px;
+	font-family:黑体；
+}
+/*input file*/
+.file_class{
+	width:250px;
+	height:30px;
+		
+}
+a:link{
+text-decoration:none;
+}

@@ -1,13 +1,23 @@
 package com.zxhy.xjl.rna.web.controller;
 
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.zxhy.xjl.notification.sms.SMS;
+import com.zxhy.xjl.notification.sms.SMSLogSimulator;
+import com.zxhy.xjl.notification.verifyCode.VerifyCode;
+import com.zxhy.xjl.notification.verifyCode.VerifyCodeImpl;
 import com.zxhy.xjl.rna.web.model.RealNameAuthTask;
 
 
@@ -15,6 +25,8 @@ import com.zxhy.xjl.rna.web.model.RealNameAuthTask;
 @RequestMapping("/realNameAuth")
 public class RealNameAuthController {
 	private static final Log log = LogFactory.getLog(RealNameAuthController.class);
+	private SMS sms = new SMSLogSimulator();//短信接口
+	private VerifyCode verifyCode=new VerifyCodeImpl();//验证码接口
 	@ResponseBody
 	@RequestMapping("/logon")
 	public RealNameAuthTask logon(@RequestParam(name="phone") String phone, @RequestParam(name="passwd") String passwd){
@@ -23,9 +35,9 @@ public class RealNameAuthController {
 		if (logon){
 			RealNameAuthTask task =new RealNameAuthTask();
 			task.setPhone(phone);
-			task.setProcessName("ʵ����֤");
+			task.setProcessName("ʵ����֤");
 			task.setTaskId("1");
-			task.setTaskName("����");
+			task.setTaskName("����");
 			return task;
 		} else {
 			return new RealNameAuthTask();
@@ -37,9 +49,9 @@ public class RealNameAuthController {
 		log.debug("logon phone:" + phone + " passwd:" + passwd);
 		RealNameAuthTask task =new RealNameAuthTask();
 		task.setPhone(phone);
-		task.setProcessName("ʵ����֤");
+		task.setProcessName("ʵ����֤");
 		task.setTaskId("1");
-		task.setTaskName("����");
+		task.setTaskName("����");
 		return task;
 	}
 	@ResponseBody
@@ -50,19 +62,86 @@ public class RealNameAuthController {
 			@RequestParam(name="taskName") String taskName,
 			@RequestParam(name="taskId") String taskId){
 		log.debug("logon phone:" + phone + " passwd:" + passwd + " taskName:" + taskName + " taskId:" + taskId);
-		if ("ע��".equals(taskName)){
-			log.debug("���ע�Ჽ��");
-		} else if ("����".equals(taskName)){
-			log.debug("��ɺ�������");
-		} else if ("ˢ��".equals(taskName)){
-			log.debug("���ˢ������");
+		if ("ע��".equals(taskName)){
+			log.debug("���ע�Ჽ��");
+		} else if ("����".equals(taskName)){
+			log.debug("��ɺ�������");
+		} else if ("ˢ��".equals(taskName)){
+			log.debug("���ˢ������");
 		}
 		RealNameAuthTask task =new RealNameAuthTask();
 		task.setPhone(phone);
-		task.setProcessName("ʵ����֤");
+		task.setProcessName("ʵ����֤");
 		task.setTaskId("1");
-		task.setTaskName("����");
+		task.setTaskName("����");
 		return task;
 	}
+	/**
+	 * 发送短信
+	 * @param phone 发送短信目标手机号
+	 * @return 字符串类型验证码
+	 */
+	@ResponseBody
+	@RequestMapping("/sendCode")
+	public boolean sendCode(@RequestParam(name="phone") String phone,HttpServletResponse response){
+		String code=this.verifyCode.generate(phone,1);//产生随机四位验证码
+		return this.sms.send(phone,code);//通过手机发送验证码;
+	}
+	/**
+	 * 执行注册操作
+	 * @param phone 注册手机号
+	 * @param code  验证码
+	 */
+	@RequestMapping("/doRegister")
+	public void doRegister(@RequestParam(name="phone") String phone,@RequestParam(name="code") String code,HttpServletRequest request,HttpServletResponse resphonse){
+		boolean flag = this.verifyCode.check(phone,code);//验证验证码是否正确
+		if(flag){
+			//进入信息核名页面
+				try {
+					request.getRequestDispatcher("/view/checkmessage.jsp").forward(request,resphonse);
+				} catch (ServletException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+		}else{
+			//返回注册页面给与提示
+			try {
+				resphonse.sendRedirect(request.getHeader("Referer"));
+				HttpSession httpSession= request.getSession();
+				httpSession.setAttribute("msg","success");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	/**
+	 * 执行信息核名操作
+	 */
+	@RequestMapping("/doCheckMessage")
+	public void doCheckMessage(HttpServletRequest request,HttpServletResponse resphonse){
+		try {
+			request.getRequestDispatcher("/view/showphoto.jsp").forward(request, resphonse);
+		} catch (ServletException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
+	/**
+	 * 执行密码修改操作
+	 */
+	@RequestMapping("/doUpdatePassword")
+	public void doUpdatePassword(HttpServletRequest request,HttpServletResponse resphonse){
+		try {
+			resphonse.sendRedirect(request.getHeader("Referer"));
+			HttpSession httpSession= request.getSession();
+			httpSession.setAttribute("msg","success");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }
