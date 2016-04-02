@@ -32,9 +32,9 @@ public class RealNameAuthController {
 		if (logon){
 			RealNameAuthTask task =new RealNameAuthTask();
 			task.setPhone(phone);
-			task.setProcessName("ʵ����֤");
+			task.setProcessName("实名认证");
 			task.setTaskId("1");
-			task.setTaskName("����");
+			task.setTaskName("核名");
 			return task;
 		} else {
 			return new RealNameAuthTask();
@@ -46,9 +46,9 @@ public class RealNameAuthController {
 		log.debug("logon phone:" + phone + " passwd:" + passwd);
 		RealNameAuthTask task =new RealNameAuthTask();
 		task.setPhone(phone);
-		task.setProcessName("ʵ����֤");
+		task.setProcessName("实名认证");
 		task.setTaskId("1");
-		task.setTaskName("����");
+		task.setTaskName("核名");
 		return task;
 	}
 	@ResponseBody
@@ -59,18 +59,18 @@ public class RealNameAuthController {
 			@RequestParam(name="taskName") String taskName,
 			@RequestParam(name="taskId") String taskId){
 		log.debug("logon phone:" + phone + " passwd:" + passwd + " taskName:" + taskName + " taskId:" + taskId);
-		if ("ע��".equals(taskName)){
-			log.debug("���ע�Ჽ��");
-		} else if ("����".equals(taskName)){
-			log.debug("��ɺ�������");
-		} else if ("ˢ��".equals(taskName)){
-			log.debug("���ˢ������");
+		if ("注册".equals(taskName)){
+			log.debug("完成注册步骤");
+		} else if ("核名".equals(taskName)){
+			log.debug("完成核名步骤");
+		} else if ("刷脸".equals(taskName)){
+			log.debug("完成刷脸步骤");
 		}
 		RealNameAuthTask task =new RealNameAuthTask();
 		task.setPhone(phone);
-		task.setProcessName("ʵ����֤");
+		task.setProcessName("实名认证");
 		task.setTaskId("1");
-		task.setTaskName("����");
+		task.setTaskName("核名");
 		return task;
 	}
 	/**
