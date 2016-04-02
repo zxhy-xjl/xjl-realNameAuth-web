@@ -1,23 +1,18 @@
 package com.zxhy.xjl.rna.web.controller;
 
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.zxhy.xjl.notification.sms.SMS;
-import com.zxhy.xjl.notification.sms.SMSLogSimulator;
 import com.zxhy.xjl.notification.verifyCode.VerifyCode;
-import com.zxhy.xjl.notification.verifyCode.VerifyCodeImpl;
 import com.zxhy.xjl.rna.web.model.RealNameAuthTask;
 
 
@@ -25,8 +20,10 @@ import com.zxhy.xjl.rna.web.model.RealNameAuthTask;
 @RequestMapping("/realNameAuth")
 public class RealNameAuthController {
 	private static final Log log = LogFactory.getLog(RealNameAuthController.class);
-	private SMS sms = new SMSLogSimulator();//短信接口
-	private VerifyCode verifyCode=new VerifyCodeImpl();//验证码接口
+	@Autowired
+	private SMS sms ;//短信接口
+	@Autowired
+	private VerifyCode verifyCode;//验证码接口
 	@ResponseBody
 	@RequestMapping("/logon")
 	public RealNameAuthTask logon(@RequestParam(name="phone") String phone, @RequestParam(name="passwd") String passwd){
@@ -98,18 +95,14 @@ public class RealNameAuthController {
 		if(flag){
 			//进入信息核名页面
 				try {
-					request.getRequestDispatcher("/view/checkmessage.jsp").forward(request,resphonse);
-				} catch (ServletException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
+					request.getRequestDispatcher("/view/checkMessage.html").forward(request, resphonse);
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 		}else{
 			//返回注册页面给与提示
 			try {
 				resphonse.sendRedirect(request.getHeader("Referer"));
-				HttpSession httpSession= request.getSession();
-				httpSession.setAttribute("msg","success");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -121,12 +114,10 @@ public class RealNameAuthController {
 	@RequestMapping("/doCheckMessage")
 	public void doCheckMessage(HttpServletRequest request,HttpServletResponse resphonse){
 		try {
-			request.getRequestDispatcher("/view/showphoto.jsp").forward(request, resphonse);
+			request.getRequestDispatcher("/view/showPhoto.html").forward(request, resphonse);
 		} catch (ServletException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -138,8 +129,6 @@ public class RealNameAuthController {
 	public void doUpdatePassword(HttpServletRequest request,HttpServletResponse resphonse){
 		try {
 			resphonse.sendRedirect(request.getHeader("Referer"));
-			HttpSession httpSession= request.getSession();
-			httpSession.setAttribute("msg","success");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
