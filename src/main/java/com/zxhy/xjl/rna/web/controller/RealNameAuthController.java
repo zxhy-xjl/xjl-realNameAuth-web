@@ -7,8 +7,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.zxhy.xjl.notification.sms.SMS;
@@ -24,8 +26,10 @@ public class RealNameAuthController {
 	private SMS sms ;//短信接口
 	@Autowired
 	private VerifyCode verifyCode;//验证码接口
+	
+	//参考webController中的例子，使用requestbody接受客户端传递过来的参数，注意方法是post
 	@ResponseBody
-	@RequestMapping("/logon")
+	@RequestMapping(value="/logon",method=RequestMethod.POST)
 	public RealNameAuthTask logon(@RequestParam(name="phone") String phone, @RequestParam(name="passwd") String passwd){
 		log.debug("logon phone:" + phone + " passwd:" + passwd);
 		boolean logon = true;

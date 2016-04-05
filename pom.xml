@@ -146,6 +146,11 @@
 			<artifactId>xjl-workflow</artifactId>
 			<version>0.0.1</version>
 		</dependency>
+		<dependency>
+			<groupId>com.zxhy.xjl</groupId>
+			<artifactId>xjl-webController</artifactId>
+			<version>0.0.1</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<finalName>xjl-realNameAuth-web</finalName>
