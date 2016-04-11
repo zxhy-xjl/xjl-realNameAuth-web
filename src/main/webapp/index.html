@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <title>演示</title>
 <script type="text/javascript" src="js/jquery-2.2.2.js"></script>
+<script type="text/javascript" src="js/jquery-rest.js"></script>
 <script type="text/javascript">
 //登陆，显示实名认证待办任务
 function logon(){
@@ -15,11 +16,11 @@ function logon(){
 		alert("密码不能为空");
 		return;
 	}
-$.ajax({
+$.restPost({
 	  url: 'rest/realNameAuth/logon',
 	  dataType: 'json',
 	  type:'post',  
-	  data: {'phone':$("#phone").val(),'passwd':$("#passwd").val()},
+	  data: {a:1},
 	  success: function(data){
 	  }
 	});
