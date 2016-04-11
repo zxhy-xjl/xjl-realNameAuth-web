@@ -118,19 +118,19 @@
 			<version>1.2.8</version>
 		</dependency>
 		<dependency>
-			 <groupId>com.zxhy.support</groupId>
-  			 <artifactId>workflow</artifactId>
+			 <groupId>com.zxhy.xjl</groupId>
+  			 <artifactId>xjl-workflow</artifactId>
   			 <version>0.0.1</version>
 		</dependency>
 		<dependency>
-			<groupId>com.zxhy.xjl.notification</groupId>
+			<groupId>com.zxhy.xjl</groupId>
   			<artifactId>xjl-notification-sms</artifactId>
   			<version>0.0.1</version>
 		</dependency>
 		<dependency>
-			<groupId>com.zxhy.xjl.notification</groupId>
+			<groupId>com.zxhy.xjl</groupId>
   			<artifactId>xjl-notification-verifyCode</artifactId>
-  			<version>0.0.1-SNAPSHOT</version>
+  			<version>0.0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
