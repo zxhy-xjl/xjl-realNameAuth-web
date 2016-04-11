@@ -6,6 +6,7 @@
 <link rel="stylesheet" href="../css/jquery-ui.css" media="screen" >
 <link rel="stylesheet" href="../css/style.css" media="screen" >
 <script type="text/javascript" src="../js/jquery-2.2.2.js"></script>
+<script type="text/javascript" src="../js/jquery-rest.js"></script>
 <script type="text/javascript" src="../js/jquery-ui.js"></script>
 <script type="text/javascript">
     /**
@@ -36,6 +37,23 @@
     		showError('对不起,密码不能为空！');
     		return;
     	}
+    	//隐藏错误提示
+		hideError();
+    	//执行登录操作
+        var url='../rest/realNameAuth/logon';
+		var myData={'phone':phone.val(),'passwd':pwd.val()};
+		var json={"url":url,"data":[mydata]}
+		$.restPost(json);
+		/* $.ajax({
+			 type:'POST',  
+			 contentType:"application/json;charset=utf-8", 
+			 dataType:'json',
+			 url:'../rest/realNameAuth/logon',
+			 data:JSON.stringify(myData),
+			 success: function(data){
+				 alert(data);
+			  }
+			}); */
     }
     /**
      * 显示错误提示信息
@@ -46,6 +64,13 @@
 		showError.html(content);
 	}
 	/**
+     * 隐藏错误提示信息
+     */
+	function hideError(){
+		var showError=$("#showError");
+		showError.hide();
+	}
+	/**
      * 跳转至注册页面
      */
     function toRegister(){
@@ -54,8 +79,7 @@
 </script>
 </head>
 <body>
-<form  id="loginForm" method="post">
-<table  width="100%"  class="table_class">
+<table style="width:100%"  class="table_class">
 	<tr >
 		<td class="showError" align="center" >
 			<div id="showError" class="showError_div"></div>
@@ -65,7 +89,7 @@
 		<td>用户名：<input id="phone" class="input" name="phone" type="text"/></td>
 	</tr>
 	<tr>
-		<td>密&nbsp;&nbsp;&nbsp;&nbsp;码：<input id="pwd" class="input" name="pwd" type="password"/></td>
+		<td>密&nbsp;&nbsp;&nbsp;&nbsp;码：<input id="pwd" class="input" name="passwd" type="password"/></td>
 	</tr>
 	<tr >
 		<td><button id="login" class="button"  onclick="doLogin()">登录</button>
@@ -77,6 +101,5 @@
 		<td><a href="forgetPassword.html" class="retrieve" >忘记密码？</a></td>
 	</tr>
 </table>
-</form>
 </body>
 </html>

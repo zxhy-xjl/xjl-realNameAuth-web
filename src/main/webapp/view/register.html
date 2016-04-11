@@ -13,12 +13,6 @@
 	 */
 	 var count;
 	$(function() {
-		var msg="${msg}";
-		if(msg!=""){
-			if(msg=="success"){
-				showError("验证失败,请重新发送验证码！");
-			}
-		}
 		//按钮样式
 	    $("button").button()
 	      .click(function( event ) {
@@ -36,12 +30,14 @@
 		}
 		//隐藏错误提示
 		hideError();
-		//发送短信
+		//发送验证码
+		var myData={'phone':phone.val()};
 		$.ajax({
-			url:'../rest/realNameAuth/sendCode',
 			type:'post',
-			dataType:"json",
-			data:{'phone':phone.val()},
+			contentType:'application/json;charset=utf-8',
+			dataType:'json',
+			url:'../rest/realNameAuth/sendCode',
+			data:JSON.stringify(myData),
 			success:function(data){
 				var sendCode = $("#sendCode");
 				if(true==data){
@@ -78,7 +74,22 @@
 			showError("短信验证码已经失效,请重新获取!");
 			return;
 		}
-		$("#registerForm").submit();
+		//执行确定操作
+		var myData={'phone':phone.val(),'code':code.val()};
+		$.ajax({
+			type:'post',
+			contentType:'application/json;charset=utf-8',
+			dataType : 'json',
+			url:'../rest/realNameAuth/doRegister',
+			data:JSON.stringify(myData),
+			success:function(data){
+				if(true==data){
+					window.location.href="../view/checkMessage.html?verify=0";
+				}else{
+					showError("验证失败,请重新发送验证码！");
+				}
+			}
+		});
 	}
 	/**
      * 计数
@@ -121,9 +132,8 @@
 </script>
 </head>
 <body>
-<form id="registerForm" name="registerFormName" action="../rest/realNameAuth/doRegister"  method="post">
 <input id="sign" type="hidden"/>
-<table  width="100%"  class="table_class">
+<table  style="width:100%"  class="table_class">
 	<tr>
 		<td>手机号码：<input id="phone" class="input" name="phone" type="text"/></td>
 	</tr>
@@ -143,6 +153,5 @@
 		</td>
 	</tr>
 </table>
-</form>
 </body>
 </html>

@@ -18,8 +18,9 @@ jQuery.extend({
 	//执行rest的post方法，序列号参数对象
 	restPost: function (options) {
 		$.extend(options, {
-			contentType:'application/json; charset=utf-8',
 			dataType:'json',
+			contentType:'application/json;charset=utf-8',
+			processData: false,
 			type:'post',
 			data:JSON.stringify(options.data)
 		});
@@ -63,7 +64,6 @@ jQuery.extend({
 		})
 		this.ajax(options);
 	},
-	
 	restError : function (XMLHttpRequest, textStatus, errorThrown){
 		alert(JSON.parse(XMLHttpRequest.responseText).errmsg);
 	}

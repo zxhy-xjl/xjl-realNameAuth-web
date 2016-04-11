@@ -21,10 +21,6 @@ $.ajax({
 	  type:'post',  
 	  data: {'phone':$("#phone").val(),'passwd':$("#passwd").val()},
 	  success: function(data){
-		  showRealNameAuthTask(data);
-	  },
-	  error:function (XMLHttpRequest, textStatus, errorThrown) {
-		  alert(JSON.parse(XMLHttpRequest.responseText).errmsg);
 	  }
 	});
 }

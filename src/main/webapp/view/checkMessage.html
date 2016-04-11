@@ -11,6 +11,9 @@
 	/**
 	 * 初始化
 	 */
+	 var thisURL = document.URL;    
+	 var getval =thisURL.split('?')[1];  
+	 var showval= getval.split("=")[1];  
 	$(function() {
 		//按钮样式
 	    $("button").button()
@@ -41,7 +44,24 @@
 		}
 		//隐藏错误提示
 		hideError();
-		$("#checkMessage").submit();
+		if("0"==showval){
+			//执行核名操作
+			var myData={'name':name.val(),'cardId':cardId.val()}';
+			$.ajax({
+				type:'post',
+				contentType:'application/json;charset=utf-8',
+				dataType : 'json',
+				url:'../rest/realNameAuth/doCheckMessage/'+showval,
+				data:JSON.stringify(myData),
+				success:function(data){
+					if(true==data){
+						window.location.href="../view/showPhoto.html";
+					}else{
+						showError("对不起,核名失败");
+					}
+				}
+			});
+		}
 	}
 	/**
      * 显示错误提示信息
@@ -61,8 +81,7 @@
 </script>
 </head>
 <body>
-<form id="checkMessage" action="../../rest/realNameAuth/doCheckMessage" method="post" ></form>
-<table  width="100%"  class="table_class">
+<table  style="width:100%"  class="table_class">
 	<tr align="center">
 		<td>身份证号：<input id="cardId" class="input" name="cardId" type="text"/></td>
 	</tr>
