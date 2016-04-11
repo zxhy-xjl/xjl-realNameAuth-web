@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="/xjl-realNameAuth-web/css/style.css">
 <script type="text/javascript" src="/xjl-realNameAuth-web/js/jquery-2.2.2.js"></script>
 <script type="text/javascript" src="/xjl-realNameAuth-web/js/jquery-ui.js"></script>
+<script type="text/javascript" src="/xjl-realNameAuth-web/js/jquery-rest.js"></script>
 <script type="text/javascript">
 	/**
 	 * 初始化
@@ -46,20 +47,18 @@
 		hideError();
 		if("0"==showval){
 			//执行核名操作
-			var myData={'name':name.val(),'cardId':cardId.val()}';
-			$.ajax({
-				type:'post',
-				contentType:'application/json;charset=utf-8',
-				dataType : 'json',
-				url:'../rest/realNameAuth/doCheckMessage/'+showval,
-				data:JSON.stringify(myData),
-				success:function(data){
-					if(true==data){
-						window.location.href="../view/showPhoto.html";
-					}else{
-						showError("对不起,核名失败");
-					}
-				}
+			$.restPost({
+				 type:'post',
+				 dataType: 'json',
+				 url:'../rest/realNameAuth/doCheckMessage/'+showval,
+				 data:{'name':name.val(),'cardId':cardId.val()},
+				 success:function(data){
+					 if(true==data){
+							window.location.href="../view/showPhoto.html";
+						}else{
+							showError("对不起,核名失败");
+						}
+				 }
 			});
 		}
 	}

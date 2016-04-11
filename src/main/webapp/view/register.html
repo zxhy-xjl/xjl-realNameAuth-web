@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="../css/style.css">
 <script type="text/javascript" src="../js/jquery-2.2.2.js"></script>
 <script type="text/javascript" src="../js/jquery-ui.js"></script>
+<script type="text/javascript" src="../js/jquery-rest.js"></script>
 <script type="text/javascript">
 	/**
 	 * 初始化
@@ -31,15 +32,13 @@
 		//隐藏错误提示
 		hideError();
 		//发送验证码
-		var myData={'phone':phone.val()};
-		$.ajax({
-			type:'post',
-			contentType:'application/json;charset=utf-8',
-			dataType:'json',
-			url:'../rest/realNameAuth/sendCode',
-			data:JSON.stringify(myData),
-			success:function(data){
-				var sendCode = $("#sendCode");
+		$.restPost({
+			 type:'post',
+			 dataType: 'json',
+			 url:'../rest/realNameAuth/sendCode',
+			 data:{'phone':phone.val()},
+			 success:function(data){
+			 	var sendCode = $("#sendCode");
 				if(true==data){
 					showError("短信已经发送至您的手机，请查收!");
 					//停止按钮事件
@@ -51,7 +50,7 @@
 					countDown();
 					$("#sign").val('');
 				}
-			}
+			 }
 		});
 	}
 	/**
@@ -75,20 +74,18 @@
 			return;
 		}
 		//执行确定操作
-		var myData={'phone':phone.val(),'code':code.val()};
-		$.ajax({
-			type:'post',
-			contentType:'application/json;charset=utf-8',
-			dataType : 'json',
-			url:'../rest/realNameAuth/doRegister',
-			data:JSON.stringify(myData),
-			success:function(data){
-				if(true==data){
+		$.restPost({
+			 type:'post',
+			 dataType: 'json',
+			 url:'../rest/realNameAuth/doRegister',
+			 data:{'phone':phone.val(),'code':code.val()},
+			 success:function(data){
+			 	if(true==data){
 					window.location.href="../view/checkMessage.html?verify=0";
 				}else{
 					showError("验证失败,请重新发送验证码！");
 				}
-			}
+			 }
 		});
 	}
 	/**

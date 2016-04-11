@@ -6,8 +6,8 @@
 <link rel="stylesheet" href="../css/jquery-ui.css" media="screen" >
 <link rel="stylesheet" href="../css/style.css" media="screen" >
 <script type="text/javascript" src="../js/jquery-2.2.2.js"></script>
-<script type="text/javascript" src="../js/jquery-rest.js"></script>
 <script type="text/javascript" src="../js/jquery-ui.js"></script>
+<script type="text/javascript" src="../js/jquery-rest.js"></script>
 <script type="text/javascript">
     /**
      * 初始化
@@ -40,20 +40,14 @@
     	//隐藏错误提示
 		hideError();
     	//执行登录操作
-        var url='../rest/realNameAuth/logon';
-		var myData={'phone':phone.val(),'passwd':pwd.val()};
-		var json={"url":url,"data":[mydata]}
-		$.restPost(json);
-		/* $.ajax({
-			 type:'POST',  
-			 contentType:"application/json;charset=utf-8", 
-			 dataType:'json',
+		$.restPost({
+			 type:'post',
+			 dataType: 'json',
 			 url:'../rest/realNameAuth/logon',
-			 data:JSON.stringify(myData),
-			 success: function(data){
-				 alert(data);
-			  }
-			}); */
+			 data:{'phone':phone.val(),'passwd':pwd.val()},
+			 success:function(data){
+			 }
+		});
     }
     /**
      * 显示错误提示信息
