@@ -8,18 +8,24 @@
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
-			<param-value>classpath*:ApplicationContext*.xml</param-value>
+			<param-value>
+				classpath*:ApplicationContext-*.xml,
+				classpath*:ApplicationContext*.xml
+			</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
- 	<context-param>
-		<param-name>contextConfigLocation</param-name>
-		<param-value>classpath*:ApplicationContext*.xml</param-value>
-	</context-param>
 	<servlet-mapping>
 		<servlet-name>mvc-dispatcher</servlet-name>
 		<url-pattern>/rest/*</url-pattern>
 	</servlet-mapping>
+ 	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
+				classpath*:ApplicationContext-*.xml,
+				classpath*:ApplicationContext*.xml
+		</param-value>
+	</context-param>
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
