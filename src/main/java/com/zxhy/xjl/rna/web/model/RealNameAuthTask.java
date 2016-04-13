@@ -10,9 +10,28 @@ public class RealNameAuthTask {
 	private String code;
 	private String name;
 	private String cardId;
-	
+	private String idCode;
+	private String idName;
+	private String idPhotoUrl;
+	private String faceUrl;
 	 
 	public RealNameAuthTask() {
+	}
+	public RealNameAuthTask(String taskId, String phone, String processName, String taskName, String passwd,
+			String code, String name, String cardId, String idCode, String idName, String idPhotoUrl, String faceUrl) {
+		super();
+		this.taskId = taskId;
+		this.phone = phone;
+		this.processName = processName;
+		this.taskName = taskName;
+		this.passwd = passwd;
+		this.code = code;
+		this.name = name;
+		this.cardId = cardId;
+		this.idCode = idCode;
+		this.idName = idName;
+		this.idPhotoUrl = idPhotoUrl;
+		this.faceUrl = faceUrl;
 	}
 	public String getTaskId() {
 		return taskId;
@@ -61,5 +80,29 @@ public class RealNameAuthTask {
 	}
 	public void setCardId(String cardId) {
 		this.cardId = cardId;
+	}
+	public String getIdCode() {
+		return idCode;
+	}
+	public void setIdCode(String idCode) {
+		this.idCode = idCode;
+	}
+	public String getIdName() {
+		return idName;
+	}
+	public void setIdName(String idName) {
+		this.idName = idName;
+	}
+	public String getIdPhotoUrl() {
+		return idPhotoUrl;
+	}
+	public void setIdPhotoUrl(String idPhotoUrl) {
+		this.idPhotoUrl = idPhotoUrl;
+	}
+	public String getFaceUrl() {
+		return faceUrl;
+	}
+	public void setFaceUrl(String faceUrl) {
+		this.faceUrl = faceUrl;
 	}
 }
