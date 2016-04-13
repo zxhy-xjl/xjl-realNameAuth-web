@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.zxhy.xjl.web</groupId>
+	<groupId>com.zxhy.xjl</groupId>
 	<artifactId>xjl-realNameAuth-web</artifactId>
 	<packaging>war</packaging>
 	<version>0.0.1</version>
@@ -76,11 +76,14 @@
 			<artifactId>ojdbc14</artifactId>
 			<version>10.2.0.4.0</version>
 		</dependency>
+
+
 		<dependency>
 			<groupId>commons-dbcp</groupId>
 			<artifactId>commons-dbcp</artifactId>
 			<version>1.4</version>
 		</dependency>
+
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j</artifactId>
@@ -118,19 +121,14 @@
 			<version>1.2.8</version>
 		</dependency>
 		<dependency>
-			 <groupId>com.zxhy.xjl</groupId>
-  			 <artifactId>xjl-workflow</artifactId>
-  			 <version>0.0.1</version>
+			<groupId>com.zxhy.xjl</groupId>
+			<artifactId>xjl-notification-sms</artifactId>
+			<version>0.0.1</version>
 		</dependency>
 		<dependency>
-			<groupId>com.zxhy.xjl</groupId>
-  			<artifactId>xjl-notification-sms</artifactId>
-  			<version>0.0.1</version>
-		</dependency>
-		<dependency>
-			<groupId>com.zxhy.xjl</groupId>
-  			<artifactId>xjl-notification-verifyCode</artifactId>
-  			<version>0.0.1</version>
+			<groupId>com.zxhy.xjl.notification</groupId>
+ 			<artifactId>xjl-notification-verifyCode</artifactId>
+  			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
@@ -138,15 +136,20 @@
 			<version>1.9.13</version>
 		</dependency>
 		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>2.5</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.zxhy.support</groupId>
+  			<artifactId>workflow</artifactId>
+  			<version>0.0.1</version>
+		</dependency>
+		<dependency>
 			<groupId>com.zxhy.xjl</groupId>
 			<artifactId>xjl-webController</artifactId>
 			<version>0.0.1</version>
-		</dependency>
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
-			<version>3.1.0</version>
-			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 	<build>
