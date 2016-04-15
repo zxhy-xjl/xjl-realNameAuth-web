@@ -28,6 +28,8 @@ public class RealNameAuthController {
 	private static final Log log = LogFactory.getLog(RealNameAuthController.class);
 	private final static String PHONE_EXISTS="手机号已经存在!";
 	private final static String CODE_ERROR="验证码错误,请重新输入!";
+	private final static String POWD_ERROR="密码错误!";
+	private final static String PHONE_NOTEXISTS="账号不存在!";
 	@Autowired
 	private SMS sms ;//短信接口
 	@Autowired
@@ -49,11 +51,14 @@ public class RealNameAuthController {
 	 * @param realNameAuthTask实名认证实体类
 	 */
 	@ResponseBody
-	@RequestMapping(value="/logon",method=RequestMethod.POST,consumes = "application/json")
+	@RequestMapping(value="/doLogon",method=RequestMethod.POST,consumes = "application/json")
 	public RealNameAuthTask logon(@RequestBody RealNameAuthTask realNameAuthTask){
 		log.debug("logon phone:" + realNameAuthTask.getPhone() + " passwd:" + realNameAuthTask.getPasswd());
-		boolean logon = true;
-		if (logon){
+		String  logon = null;
+		System.out.println("logon phone:" + realNameAuthTask.getPhone() + " passwd:" + realNameAuthTask.getPasswd());
+		logon=realNameAuthBusiness.logon(realNameAuthTask.getPhone(), realNameAuthTask.getPasswd());
+		
+		if ("success".equals(logon)){
 			RealNameAuthTask task =new RealNameAuthTask();
 			task.setPhone(realNameAuthTask.getPhone());
 			task.setProcessName("实名认证");
@@ -180,5 +185,48 @@ public class RealNameAuthController {
 		task.setTaskId("1");
 		task.setTaskName("核名");
 		return task;
+	}
+	/**
+	 * 跳转到管理员登录页面
+	 */
+	@RequestMapping(value="/toIndex",method=RequestMethod.GET)
+	public String toIndex(){
+		return "index";
+	}
+
+	/**
+	 * 跳转到管理员登录页面
+	 */
+	@RequestMapping(value="/toLogonAdmin",method=RequestMethod.GET)
+	public String toLogonAdmin(){
+		return "adminLogin";
+	}
+	/**
+	 * 登录
+	 * @param Admin 管理员登录
+	 */
+	@ResponseBody
+	@RequestMapping(value="/doLogonAdmin",method=RequestMethod.POST,consumes = "application/json")
+	public Message doLogonAdmin(@RequestBody com.zxhy.xjl.rna.web.model.Admin Admin){
+		 Message message = new Message();
+		log.debug("logon name:" + Admin.getAccountNumber()+ " passwd:" + Admin.getPasswd());
+		String  logon = null;
+		System.out.println("logon name:" + Admin.getAccountNumber()+ " passwd:" + Admin.getPasswd());
+		logon=realNameAuthBusiness.logon(Admin.getAccountNumber(), Admin.getPasswd());
+		
+		if ("success".equals(logon)){
+			 message.setResult("success");
+		    	return  message;
+			
+		}if ("passwordError".equals(logon)){
+			 message.setResult("false");
+			 message.setMsg(this.POWD_ERROR);
+			 return  message;
+		}else{
+			 message.setResult("false");
+			 message.setMsg(this.PHONE_NOTEXISTS);
+			 return  message;
+		}
+		
 	}
 }

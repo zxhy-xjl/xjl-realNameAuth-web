@@ -3,6 +3,11 @@
 	<name>xjl-realNameAuth-web</name>
 	<comment></comment>
 	<projects>
+		<project>xjl-realNameAuth-core</project>
+		<project>xjl-webController</project>
+		<project>workflow</project>
+		<project>xjl-notification-sms</project>
+		<project>xjl-notification-verifyCode</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

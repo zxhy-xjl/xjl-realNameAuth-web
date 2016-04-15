@@ -23,14 +23,10 @@
      * 登录
      */
     function doLogin(){
-    	var phone=$("#phone");
+    	var accountNumber=$("#accountNumber");
     	var pwd=$("#pwd");
-    	if(phone.val()==""){
-    		showError('对不起,手机号不能为空！');
-    		return;
-    	}
-    	if(phone.val().length!=11){
-    		showError('对不起,手机号长度不能超过或者低于11位,请重新输入！');
+    	if(accountNumber.val()==""){
+    		showError('对不起,账号不能为空！');
     		return;
     	}
     	if(pwd.val()==""){
@@ -43,16 +39,17 @@
 		$.restPost({
 			 type:'post',
 			 dataType: 'json',
-			 url:'../../rest/realNameAuth/doLogon',
-			 data:{'phone':phone.val(),'passwd':pwd.val()},
+			 url:'../../rest/realNameAuth/doLogonAdmin',
+			 data:{'accountNumber':accountNumber.val(),'passwd':pwd.val()},
 			 success:function(data){
 				 if(null!=data){
-					 window.location.href='../../rest/realNameAuth/toCheckMessage';//测试跳转
+					 if(data.result.indexOf("success")!=-1){
+						 window.location.href='../../rest/realNameAuth/toIndex';
 					 }else{
-					 window.location.href='../../rest/realNameAuth/toCheckMessage';
-					} 
+						showError(data.msg);
+					 } 
 				 }
-			 
+			 }		 
 		});
     }
     /**
@@ -70,12 +67,6 @@
 		var showError=$("#showError");
 		showError.hide();
 	}
-	/**
-     * 跳转至注册页面
-     */
-    function toRegister(){
-    	window.location.href='../../rest/realNameAuth/toRegister';
-    }
 </script>
 </head>
 <body>
@@ -86,7 +77,7 @@
 		</td>
 	</tr>
 	<tr>
-		<td>用户名：<input id="phone" class="input" name="phone" type="text"/></td>
+		<td>管理员账号：<input id="accountNumber" class="input" name="accountNumber" type="text"/></td>
 	</tr>
 	<tr>
 		<td>密&nbsp;&nbsp;&nbsp;&nbsp;码：<input id="pwd" class="input" name="passwd" type="password"/></td>
@@ -95,10 +86,9 @@
 		<td><button id="login" class="button"  onclick="doLogin()">登录</button>
 	</tr>
 	<tr>
-		<td><button id="register" class="button"  onclick="toRegister()" ><a  href=""></a>注册</button>
-	</tr>
-	<tr>
-		<td><a href="forgetPassword.html" class="retrieve" >忘记密码？</a></td>
+		<td class="showError" align="center" >
+			<div id="showError" class="showError_div"></div>
+		</td>
 	</tr>
 </table>
 </body>
