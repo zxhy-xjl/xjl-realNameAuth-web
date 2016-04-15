@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <title>注册</title>
-<link rel="stylesheet" href="../css/jquery-ui.css">
-<link rel="stylesheet" href="../css/style.css">
-<script type="text/javascript" src="../js/jquery-2.2.2.js"></script>
-<script type="text/javascript" src="../js/jquery-ui.js"></script>
-<script type="text/javascript" src="../js/jquery-rest.js"></script>
+<link rel="stylesheet" href="../../css/jquery-ui.css">
+<link rel="stylesheet" href="../../css/style.css">
+<script type="text/javascript" src="../../js/jquery-2.2.2.js"></script>
+<script type="text/javascript" src="../../js/jquery-ui.js"></script>
+<script type="text/javascript" src="../../js/jquery-rest.js"></script>
 <script type="text/javascript">
 	/**
 	 * 初始化
@@ -34,8 +34,9 @@
 		//发送验证码
 		$.restPost({
 			 type:'post',
+			 contentType:'application/json;charset=utf-8',
 			 dataType: 'json',
-			 url:'../rest/realNameAuth/sendCode',
+			 url:'../../rest/realNameAuth/sendCode',
 			 data:{'phone':phone.val()},
 			 success:function(data){
 			 	var sendCode = $("#sendCode");
@@ -46,7 +47,7 @@
 					//改变按钮背景颜色
 					sendCode.css('background','#B5B5B5');
 					//调用倒计时
-					count=61;
+					count=121;
 					countDown();
 					$("#sign").val('');
 				}
@@ -77,14 +78,22 @@
 		$.restPost({
 			 type:'post',
 			 dataType: 'json',
-			 url:'../rest/realNameAuth/doRegister',
+			 url:'../../rest/realNameAuth/doRegister',
 			 data:{'phone':phone.val(),'code':code.val()},
 			 success:function(data){
-			 	if(true==data){
-					window.location.href="../view/checkMessage.html?verify=0";
-				}else{
-					showError("验证失败,请重新发送验证码！");
-				}
+				 var sendCode = $("#sendCode");
+				 if(null!=data){
+					 if(data.result.indexOf("success")!=-1){
+						 window.location.href='../../rest/realNameAuth/toCheckMessage';
+					 }else{
+						//停止按钮事件
+						sendCode.removeAttr("disabled");
+						//改变按钮背景颜色
+						sendCode.css('background','#F6F6F6');
+						$("#code").val(' ');
+						showError(data.msg);
+					 } 
+				 }
 			 }
 		});
 	}
@@ -93,6 +102,7 @@
      */
 	function countDown(){
 		var msg="";
+		$("#showCount").show();
 		if(count!=0){
 			count--;
 			msg="(请在"+count+"秒之内输入验证码)";
