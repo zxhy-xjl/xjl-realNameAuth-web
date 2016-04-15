@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <title>登录</title>
-<link rel="stylesheet" href="../css/jquery-ui.css" media="screen" >
-<link rel="stylesheet" href="../css/style.css" media="screen" >
-<script type="text/javascript" src="../js/jquery-2.2.2.js"></script>
-<script type="text/javascript" src="../js/jquery-ui.js"></script>
-<script type="text/javascript" src="../js/jquery-rest.js"></script>
+<link rel="stylesheet" href="../../css/jquery-ui.css" media="screen" >
+<link rel="stylesheet" href="../../css/style.css" media="screen" >
+<script type="text/javascript" src="../../js/jquery-2.2.2.js"></script>
+<script type="text/javascript" src="../../js/jquery-ui.js"></script>
+<script type="text/javascript" src="../../js/jquery-rest.js"></script>
 <script type="text/javascript">
     /**
      * 初始化
@@ -43,7 +43,7 @@
 		$.restPost({
 			 type:'post',
 			 dataType: 'json',
-			 url:'../rest/realNameAuth/logon',
+			 url:'../../rest/realNameAuth/logon',
 			 data:{'phone':phone.val(),'passwd':pwd.val()},
 			 success:function(data){
 			 }
@@ -68,7 +68,7 @@
      * 跳转至注册页面
      */
     function toRegister(){
-    	window.location.href='../view/register.html';
+    	window.location.href='../../rest/realNameAuth/toRegister';
     }
 </script>
 </head>
@@ -89,7 +89,7 @@
 		<td><button id="login" class="button"  onclick="doLogin()">登录</button>
 	</tr>
 	<tr>
-		<td><button id="register" class="button"  onclick="toRegister()" >注册</button>
+		<td><button id="register" class="button"  onclick="toRegister()" ><a  href=""></a>注册</button>
 	</tr>
 	<tr>
 		<td><a href="forgetPassword.html" class="retrieve" >忘记密码？</a></td>

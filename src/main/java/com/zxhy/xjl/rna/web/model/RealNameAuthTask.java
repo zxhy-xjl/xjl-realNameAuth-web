@@ -1,5 +1,6 @@
 package com.zxhy.xjl.rna.web.model;
 
+import java.io.File;
 
 public class RealNameAuthTask {
 	private String taskId;
@@ -14,6 +15,7 @@ public class RealNameAuthTask {
 	private String idName;
 	private String idPhotoUrl;
 	private String faceUrl;
+	private File file;
 	 
 	public RealNameAuthTask() {
 	}
@@ -104,5 +106,11 @@ public class RealNameAuthTask {
 	}
 	public void setFaceUrl(String faceUrl) {
 		this.faceUrl = faceUrl;
+	}
+	public File getFile() {
+		return file;
+	}
+	public void setFile(File file) {
+		this.file = file;
 	}
 }
