@@ -1,22 +1,20 @@
 package com.zxhy.xjl.rna.web.controller;
 
 import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
-
+import org.springframework.web.multipart.MultipartFile;
 import com.zxhy.xjl.notification.sms.SMS;
 import com.zxhy.xjl.notification.verifyCode.VerifyCode;
 import com.zxhy.xjl.rna.business.RealNameAuthBusiness;
+import com.zxhy.xjl.rna.fileService.RealNameAuthFileService;
 import com.zxhy.xjl.rna.mapper.RealNameAuthMapper;
 import com.zxhy.xjl.rna.model.RealNameAuth;
 import com.zxhy.xjl.rna.web.model.Message;
@@ -38,6 +36,8 @@ public class RealNameAuthController {
 	private RealNameAuthMapper mapper;//实名认证数据库操作类
 	@Autowired
 	private RealNameAuthBusiness realNameAuthBusiness;//实名认证操作类
+	@Autowired
+	private RealNameAuthFileService realNameAuthFileService;//文件管理类
 	
 	/**
 	 * 跳转到登录页面
@@ -56,7 +56,7 @@ public class RealNameAuthController {
 		log.debug("logon phone:" + realNameAuthTask.getPhone() + " passwd:" + realNameAuthTask.getPasswd());
 		String  logon = null;
 		System.out.println("logon phone:" + realNameAuthTask.getPhone() + " passwd:" + realNameAuthTask.getPasswd());
-		logon=realNameAuthBusiness.logon(realNameAuthTask.getPhone(), realNameAuthTask.getPasswd());
+		logon=this.realNameAuthBusiness.logon(realNameAuthTask.getPhone(), realNameAuthTask.getPasswd());
 		
 		if ("success".equals(logon)){
 			RealNameAuthTask task =new RealNameAuthTask();
@@ -75,10 +75,23 @@ public class RealNameAuthController {
 	 * @return 字符串类型验证码
 	 */
 	@ResponseBody
+	@SuppressWarnings("static-access")
 	@RequestMapping(value="/sendCode",method=RequestMethod.POST,consumes = "application/json")
-	public boolean sendCode(@RequestBody RealNameAuthTask realNameAuthTask){
-		String code=this.verifyCode.generate(realNameAuthTask.getPhone(),2);//产生随机四位验证码
-		return this.sms.sendMessage(realNameAuthTask.getPhone(),2,code)==0?true:false;//通过手机发送验证码;
+	public Message sendCode(@RequestBody RealNameAuthTask realNameAuthTask){
+		 RealNameAuth realNameAuth = this.mapper.findByPhone(realNameAuthTask.getPhone());
+		 Message message = new Message();
+		//判断注册手机号码是否存在
+		 if(null==realNameAuth){
+			 String code=this.verifyCode.generate(realNameAuthTask.getPhone(),2);//产生随机四位验证码
+			 String content="门户网站，" + code + "是您本次身份校验码，" + 2 + "分钟内有效．审批局工作人员绝不会向您索取此校验码，切勿告知他人．";
+			 this.sms.send(realNameAuthTask.getPhone(),content);//通过手机发送验证码;
+			 message.setResult("success");
+		 }else{
+			 //号码已存在
+			 message.setMsg(this.PHONE_EXISTS);
+			 message.setResult("false");
+		 }
+		 return message;
 	}
 	/**
 	 * 跳转至注册页面
@@ -92,23 +105,17 @@ public class RealNameAuthController {
 	 * @param realNameAuthTask 实名认证实体类
 	 * @return true:注册验证成功,false：注册验证失败
 	 */
-	@SuppressWarnings("static-access")
 	@ResponseBody
+	@SuppressWarnings("static-access")
 	@RequestMapping(value="/doRegister",method=RequestMethod.POST)
 	public Message doRegister(@RequestBody RealNameAuthTask realNameAuthTask){
 		 boolean flag = this.verifyCode.check(realNameAuthTask.getPhone(),realNameAuthTask.getCode());//验证验证码是否正确
 		 Message message = new Message();
+		 //判断验证码是否正确
 		 if(flag){
-			 //判断注册手机号码是否存在
-			 RealNameAuth realNameAuth = this.mapper.findByPhone(realNameAuthTask.getPhone());
-			 if(null==realNameAuth){
-				 //执行入库操作
-				 this.realNameAuthBusiness.register(realNameAuthTask.getPhone(),realNameAuthTask.getCode());
-				 message.setResult("success");
-			 }else{
-				 message.setMsg(this.PHONE_EXISTS);
-				 message.setResult("false");
-			 }
+			 //执行入库操作
+			 this.realNameAuthBusiness.register(realNameAuthTask.getPhone(),realNameAuthTask.getCode());
+			 message.setResult("success");
 		 }else{
 			 message.setMsg(this.CODE_ERROR);
 			 message.setResult("false");
@@ -126,18 +133,15 @@ public class RealNameAuthController {
 	/**
 	 * 执行信息核名操作
 	 */
-	@ResponseBody
 	@RequestMapping(value="/doCheckMessage",method=RequestMethod.POST)
-	public Message doCheckMessage(@RequestBody RealNameAuthTask realNameAuthTask,HttpServletRequest request){
-		 System.out.println(realNameAuthTask.getFile());
-		 
-		return new Message();
-	}
-	
-
-	public void doUploadImage(HttpServletRequest request){
-		//转型为MultipartHttpRequest(重点的所在)  
-		MultipartHttpServletRequest multipartRequest  =  (MultipartHttpServletRequest) request;  
+	public String doCheckMessage(@RequestParam(name="cardId") String cardId,@RequestParam(name="name") String name,
+			@RequestParam(name="phone") String phone,@RequestParam(value = "file", required = false) MultipartFile file,
+			HttpServletRequest request){
+		 String path = request.getSession().getServletContext().getRealPath("/");// 文件保存文件夹，也可自定为绝对路径
+		 this.realNameAuthFileService.doUploadImage(file, path);//上传照片保存至文件
+		 com.zxhy.xjl.rna.business.RealNameAuthTask task  = this.realNameAuthBusiness.getRealNameAuthTask(phone);//获取taskID
+		 this.realNameAuthBusiness.checkRealName(phone,cardId, name,task.getTaskId());//执行核名操作
+		 return "login";
 	}
 	/**
 	 * 执行密码修改操作
@@ -213,7 +217,6 @@ public class RealNameAuthController {
 		String  logon = null;
 		System.out.println("logon name:" + Admin.getAccountNumber()+ " passwd:" + Admin.getPasswd());
 		logon=realNameAuthBusiness.logon(Admin.getAccountNumber(), Admin.getPasswd());
-		
 		if ("success".equals(logon)){
 			 message.setResult("success");
 		    	return  message;
