@@ -210,6 +210,7 @@ public class RealNameAuthController {
 	 * @param Admin 管理员登录
 	 */
 	@ResponseBody
+	@SuppressWarnings("static-access")
 	@RequestMapping(value="/doLogonAdmin",method=RequestMethod.POST,consumes = "application/json")
 	public Message doLogonAdmin(@RequestBody com.zxhy.xjl.rna.web.model.Admin Admin){
 		 Message message = new Message();
