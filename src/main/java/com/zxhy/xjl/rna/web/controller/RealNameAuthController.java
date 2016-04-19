@@ -55,9 +55,7 @@ public class RealNameAuthController {
 	public RealNameAuthTask logon(@RequestBody RealNameAuthTask realNameAuthTask){
 		log.debug("logon phone:" + realNameAuthTask.getPhone() + " passwd:" + realNameAuthTask.getPasswd());
 		String  logon = null;
-		System.out.println("logon phone:" + realNameAuthTask.getPhone() + " passwd:" + realNameAuthTask.getPasswd());
 		logon=this.realNameAuthBusiness.logon(realNameAuthTask.getPhone(), realNameAuthTask.getPasswd());
-		
 		if ("success".equals(logon)){
 			RealNameAuthTask task =new RealNameAuthTask();
 			task.setPhone(realNameAuthTask.getPhone());
@@ -68,6 +66,44 @@ public class RealNameAuthController {
 		} else {
 			return new RealNameAuthTask();
 		}
+	}
+	/**
+	 * 跳转到管理员登录页面
+	 */
+	@RequestMapping(value="/toLogonAdmin",method=RequestMethod.GET)
+	public String toLogonAdmin(){
+		return "adminLogin";
+	}
+	/**
+	 * 登录
+	 * @param Admin 管理员登录
+	 */
+	@ResponseBody
+	@SuppressWarnings("static-access")
+	@RequestMapping(value="/doLogonAdmin",method=RequestMethod.POST,consumes = "application/json")
+	public Message doLogonAdmin(@RequestBody com.zxhy.xjl.rna.web.model.Admin Admin){
+		log.debug("logon name:" + Admin.getAccountNumber()+ " passwd:" + Admin.getPasswd());
+		String  logon=realNameAuthBusiness.logon(Admin.getAccountNumber(), Admin.getPasswd());
+		Message message = new Message();
+		if ("success".equals(logon)){
+			 message.setResult("success");
+	    	 return  message;
+		}if ("passwordError".equals(logon)){
+			 message.setResult("false");
+			 message.setMsg(this.POWD_ERROR);
+			 return  message;
+		}else{
+			 message.setResult("false");
+			 message.setMsg(this.PHONE_NOTEXISTS);
+			 return  message;
+		}
+	}
+	/**
+	 * 跳转到管理员登录页面
+	 */
+	@RequestMapping(value="/toIndex",method=RequestMethod.GET)
+	public String toIndex(){
+		return "index";
 	}
 	/**
 	 * 发送短信
@@ -115,6 +151,7 @@ public class RealNameAuthController {
 		 if(flag){
 			 //执行入库操作
 			 this.realNameAuthBusiness.register(realNameAuthTask.getPhone(),realNameAuthTask.getCode());
+			 message.setResult_phone(realNameAuthTask.getPhone());
 			 message.setResult("success");
 		 }else{
 			 message.setMsg(this.CODE_ERROR);
@@ -135,12 +172,13 @@ public class RealNameAuthController {
 	 */
 	@RequestMapping(value="/doCheckMessage",method=RequestMethod.POST)
 	public String doCheckMessage(@RequestParam(name="cardId") String cardId,@RequestParam(name="name") String name,
-			@RequestParam(name="phone") String phone,@RequestParam(value = "file", required = false) MultipartFile file,
-			HttpServletRequest request){
-		 String path = request.getSession().getServletContext().getRealPath("/");// 文件保存文件夹，也可自定为绝对路径
-		 this.realNameAuthFileService.doUploadImage(file, path);//上传照片保存至文件
+			@RequestParam(name="phone") String phone,@RequestParam(value = "file_1", required = false) MultipartFile file_1,
+			@RequestParam(value = "file_2", required = false) MultipartFile file_2,HttpServletRequest request){
+		 String outPath = request.getSession().getServletContext().getRealPath("/");// 文件保存文件夹，也可自定为绝对路径
+		 this.realNameAuthFileService.doUploadImage(file_1, outPath, phone+"sfz");//身份证照片
+		 this.realNameAuthFileService.doUploadImage(file_2, outPath, phone);//人员照片
 		 com.zxhy.xjl.rna.business.RealNameAuthTask task  = this.realNameAuthBusiness.getRealNameAuthTask(phone);//获取taskID
-		 this.realNameAuthBusiness.checkRealName(phone,cardId, name,task.getTaskId());//执行核名操作
+		 this.realNameAuthBusiness.checkRealName(phone,cardId,name,task.getTaskId());//执行核名操作
 		 return "login";
 	}
 	/**
@@ -189,48 +227,5 @@ public class RealNameAuthController {
 		task.setTaskId("1");
 		task.setTaskName("核名");
 		return task;
-	}
-	/**
-	 * 跳转到管理员登录页面
-	 */
-	@RequestMapping(value="/toIndex",method=RequestMethod.GET)
-	public String toIndex(){
-		return "index";
-	}
-
-	/**
-	 * 跳转到管理员登录页面
-	 */
-	@RequestMapping(value="/toLogonAdmin",method=RequestMethod.GET)
-	public String toLogonAdmin(){
-		return "adminLogin";
-	}
-	/**
-	 * 登录
-	 * @param Admin 管理员登录
-	 */
-	@ResponseBody
-	@SuppressWarnings("static-access")
-	@RequestMapping(value="/doLogonAdmin",method=RequestMethod.POST,consumes = "application/json")
-	public Message doLogonAdmin(@RequestBody com.zxhy.xjl.rna.web.model.Admin Admin){
-		 Message message = new Message();
-		log.debug("logon name:" + Admin.getAccountNumber()+ " passwd:" + Admin.getPasswd());
-		String  logon = null;
-		System.out.println("logon name:" + Admin.getAccountNumber()+ " passwd:" + Admin.getPasswd());
-		logon=realNameAuthBusiness.logon(Admin.getAccountNumber(), Admin.getPasswd());
-		if ("success".equals(logon)){
-			 message.setResult("success");
-		    	return  message;
-			
-		}if ("passwordError".equals(logon)){
-			 message.setResult("false");
-			 message.setMsg(this.POWD_ERROR);
-			 return  message;
-		}else{
-			 message.setResult("false");
-			 message.setMsg(this.PHONE_NOTEXISTS);
-			 return  message;
-		}
-		
 	}
 }
