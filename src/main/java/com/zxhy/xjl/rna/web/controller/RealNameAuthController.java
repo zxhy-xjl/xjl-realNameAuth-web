@@ -106,7 +106,7 @@ public class RealNameAuthController {
 		return "index";
 	}
 	/**
-	 * 发送短信
+	 * 注册：发送短信
 	 * @param realNameAuthTask 实名认证实体类
 	 * @return 字符串类型验证码
 	 */
@@ -175,11 +175,47 @@ public class RealNameAuthController {
 			@RequestParam(name="phone") String phone,@RequestParam(value = "file_1", required = false) MultipartFile file_1,
 			@RequestParam(value = "file_2", required = false) MultipartFile file_2,HttpServletRequest request){
 		 String outPath = request.getSession().getServletContext().getRealPath("/");// 文件保存文件夹，也可自定为绝对路径
-		 this.realNameAuthFileService.doUploadImage(file_1, outPath, phone+"sfz");//身份证照片
-		 this.realNameAuthFileService.doUploadImage(file_2, outPath, phone);//人员照片
+		 if(null!=file_1){
+			 this.realNameAuthFileService.doUploadImage(file_1, outPath, phone+"sfz");//身份证照片
+		 }
+		 if(null!=file_2){
+			 this.realNameAuthFileService.doUploadImage(file_2, outPath, phone);//人员照片
+		 }
 		 com.zxhy.xjl.rna.business.RealNameAuthTask task  = this.realNameAuthBusiness.getRealNameAuthTask(phone);//获取taskID
 		 this.realNameAuthBusiness.checkRealName(phone,cardId,name,task.getTaskId());//执行核名操作
 		 return "login";
+	}
+	
+	/**
+	 * 忘记密码：发送验证码
+	 * @param realNameAuthTask 实名认证实体类
+	 * @return
+	 */
+	@ResponseBody
+	@SuppressWarnings("static-access")
+	@RequestMapping(value="/SendCodeForUpdatePassword",method=RequestMethod.POST,consumes = "application/json")
+	public Message SendCodeForUpdatePassword(@RequestBody RealNameAuthTask realNameAuthTask){
+		RealNameAuth realNameAuth = this.mapper.findByPhone(realNameAuthTask.getPhone());//根据phone获取账号信息
+		Message message = new Message();
+		//判断是否存在
+		if(null!=realNameAuth){
+			 String code=this.verifyCode.generate(realNameAuthTask.getPhone(),2);//产生随机四位验证码
+			 String content="门户网站，" + code + "是您本次身份校验码，" + 2 + "分钟内有效．审批局工作人员绝不会向您索取此校验码，切勿告知他人．";
+			 this.sms.send(realNameAuthTask.getPhone(),content);//通过手机发送验证码;
+			 message.setResult("success");
+		}else{
+			//不存在
+			message.setResult("false");
+			message.setResult(this.PHONE_NOTEXISTS);
+		}
+		 return message;
+	}
+	/**
+	 * 跳转至忘记密码页面
+	 */
+	@RequestMapping(value="/toUpdatePassword" , method=RequestMethod.GET)
+	public String toUpdatePassword(){
+		return "forgetPassword";
 	}
 	/**
 	 * 执行密码修改操作
@@ -190,6 +226,7 @@ public class RealNameAuthController {
 		//判断验证码是否正确
 		boolean flag = this.verifyCode.check(realNameAuthTask.getPhone(),realNameAuthTask.getCode());//验证验证码是否正确
 		if(flag){
+			
 			log.debug("phone:"+realNameAuthTask.getPhone()+"password:"+realNameAuthTask.getPasswd()+"code:"+realNameAuthTask.getCode());
 		}
 		return true;
