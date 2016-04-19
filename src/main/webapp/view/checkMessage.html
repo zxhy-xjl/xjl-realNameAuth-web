@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <title>信息核对</title>
-<link rel="stylesheet" href="/xjl-realNameAuth-web/css/jquery-ui.css">
-<link rel="stylesheet" href="/xjl-realNameAuth-web/css/style.css">
-<script type="text/javascript" src="/xjl-realNameAuth-web/js/jquery-2.2.2.js"></script>
-<script type="text/javascript" src="/xjl-realNameAuth-web/js/jquery-ui.js"></script>
+<link rel="stylesheet" href="../../css/jquery-ui.css">
+<link rel="stylesheet" href="../../css/style.css">
+<script type="text/javascript" src="../../js/jquery-2.2.2.js"></script>
+<script type="text/javascript" src="../../js/jquery-ui.js"></script>
 <script type="text/javascript">
 	/**
 	 * 初始化
@@ -70,20 +70,27 @@
 <form id="checkMessage" action="../rest/realNameAuth/doCheckMessage" method="post" enctype="multipart/form-data">
 <input id="phone" name="phone" type="hidden">
 <table  style="width:100%"   class="table_class">
-<tr align="center">
-		<td><input id="file"  class="file_class" name="file"  type="file"></td>
+	<tr align="center">
+		<td align="right" width="45%">身份证照片：</td>
+		<td align="left"><input id="file"  class="file_class" name="file_1"  type="file"></td>
 	</tr>
 	<tr align="center">
-		<td>身份证号：<input id="cardId" class="input" name="cardId" type="text"/></td>
+		<td align="right">照片：</td>
+		<td align="left" ><input id="file"  class="file_class" name="file_2"  type="file"></td>
 	</tr>
 	<tr align="center">
-		<td  style="font-family:‘Times New Roman‘;">姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名：<input id="name" class="input" name="name" type="text"/></td>
+		<td align="right">身份证号：</td>
+		<td align="left" ><input id="cardId" class="input" name="cardId" type="text"/></td>
 	</tr>
 	<tr align="center">
-		<td><input class="button" type="button" value="提交" onclick="doSubmit()"></td>
+		<td align="right">姓名：</td>
+		<td align="left" style="font-family:‘Times New Roman‘;"><input id="name" class="input" name="name" type="text"/></td>
+	</tr>
+	<tr align="center">
+		<td colspan="2"><input class="button" type="button" value="提交" onclick="doSubmit()"></td>
 	</tr>
 	<tr>
-		<td class="showError" align="center" >
+		<td class="showError" align="center"  colspan="2">
 			<div id="showError" class="showError_div"></div>
 		</td>
 	</tr>

@@ -17,8 +17,6 @@
 	 * 初始化
 	 */
 	 var count;
-	 var ajaxbg = $("#loading,#progressBar"); 
-	 ajaxbg.hide();
 	$(function() {
 		//按钮样式
 	    $("button").button()
@@ -157,22 +155,26 @@
 <div id="loading" style="display:none;" ><img alt="" src="../../images/loading.gif"></div> 
 <div id="progressBar" class="progressBar" style="display:none;">数据加载中，请稍等...</div> 
 <input id="sign" type="hidden"/>
-<table  style="width:100%"  class="table_class">
-	<tr>
-		<td>手机号码：<input id="phone" class="input" name="phone" type="text"/></td>
+<table  style="width:100%"  class="table_class" >
+	<tr align="center">
+		<td align="right" width="45%">手机号码：</td>
+		<td align="left"><input id="phone" class="input" name="phone" type="text"/></td>
 	</tr>
-	<tr>
-		<td><button  id="sendCode" class="button" onclick="doSendCode();">发送验证码</button></td>
+	<tr  align="center">
+		<td colspan="2"><button  id="sendCode" class="button" onclick="doSendCode();">发送验证码</button></td>
 	</tr>  
-	<tr>
-		
-		<td><span id="showCount"  class="showCount_class" ></span><br/>验&nbsp;&nbsp;证&nbsp;&nbsp;码：<input id="code" class="input" name="code" type="text"/></td>
+	<tr align="center">
+		<td colspan="2"><span id="showCount"  class="showCount_class" ></span></td>
 	</tr>
-	<tr>
-		<td><button id="affirm" class="button" onclick="doAffirm();" >确认</button></td>
+	<tr  align="center">
+		<td align="right">验&nbsp;&nbsp;证&nbsp;&nbsp;码：</td>
+		<td align="left"><input id="code" class="input" name="code" type="text"/></td>
 	</tr>
-	<tr>
-		<td class="showError" align="center" >
+	<tr  align="center">
+		<td colspan="2"><button id="affirm" class="button" onclick="doAffirm();" >确认</button></td>
+	</tr>
+	<tr  align="center">
+		<td class="showError" align="center" colspan="2" >
 			<div id="showError" class="showError_div"></div>
 		</td>
 	</tr>

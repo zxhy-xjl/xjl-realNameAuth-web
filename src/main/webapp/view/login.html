@@ -81,24 +81,26 @@
 <body>
 <table style="width:100%"  class="table_class">
 	<tr >
-		<td class="showError" align="center" >
+		<td class="showError" align="center" colspan="2">
 			<div id="showError" class="showError_div"></div>
 		</td>
 	</tr>
 	<tr>
-		<td>用户名：<input id="phone" class="input" name="phone" type="text"/></td>
+		<td align="right" width="45%">用户名：</td>
+		<td align="left"><input id="phone" class="input" name="phone" type="text"/></td>
 	</tr>
 	<tr>
-		<td>密&nbsp;&nbsp;&nbsp;&nbsp;码：<input id="pwd" class="input" name="passwd" type="password"/></td>
+		<td align="right">密&nbsp;&nbsp;&nbsp;&nbsp;码：</td>
+		<td align="left"><input id="pwd" class="input" name="passwd" type="password"/></td>
 	</tr>
 	<tr >
-		<td><button id="login" class="button"  onclick="doLogin()">登录</button>
+		<td colspan="2"><button id="login" class="button"  onclick="doLogin()">登录</button>
 	</tr>
 	<tr>
-		<td><button id="register" class="button"  onclick="toRegister()" ><a  href=""></a>注册</button>
+		<td colspan="2"><button id="register" class="button"  onclick="toRegister()" ><a  href=""></a>注册</button>
 	</tr>
 	<tr>
-		<td><a href="forgetPassword.html" class="retrieve" >忘记密码？</a></td>
+		<td colspan="2"><a href="forgetPassword.html" class="retrieve" >忘记密码？</a></td>
 	</tr>
 </table>
 </body>
