@@ -14,7 +14,7 @@
 	$(function() {
 		$("#phone").val(getQueryString("phone"))
 		//按钮样式
-	    $("input[type=submit]").button()
+	    $("#button").button()
 	      .click(function( event ) {
 	        event.preventDefault();
 	      });
@@ -87,7 +87,7 @@
 		<td align="left" style="font-family:‘Times New Roman‘;"><input id="name" class="input" name="name" type="text"/></td>
 	</tr>
 	<tr align="center">
-		<td colspan="2"><input class="button" type="button" value="提交" onclick="doSubmit()"></td>
+		<td colspan="2"><input id="button" class="button" type="button" value="提交" onclick="doSubmit()"></td>
 	</tr>
 	<tr>
 		<td class="showError" align="center"  colspan="2">
