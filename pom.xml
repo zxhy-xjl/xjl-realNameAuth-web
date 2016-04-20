@@ -36,4 +36,11 @@
 			<url>http://139.196.174.28:8081/nexus/content/repositories/releases</url>
 		</repository>
 	</distributionManagement>
+	<dependencies>
+		<dependency>
+			<groupId>com.zxhy.xjl</groupId>
+			<artifactId>xjl-realNameAuth-controller</artifactId>
+			<version>0.0.1</version>
+		</dependency>
+	</dependencies>
 </project>
