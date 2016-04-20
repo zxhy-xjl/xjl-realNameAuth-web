@@ -44,7 +44,7 @@ public class RealNameAuthController {
 	 */
 	@RequestMapping(value="/toLogon",method=RequestMethod.GET)
 	public String toLogon(){
-		return "login";
+		return "logon/login";
 	}
 	/**
 	 * 登录
@@ -72,7 +72,7 @@ public class RealNameAuthController {
 	 */
 	@RequestMapping(value="/toLogonAdmin",method=RequestMethod.GET)
 	public String toLogonAdmin(){
-		return "adminLogin";
+		return "logon/adminLogin";
 	}
 	/**
 	 * 登录
@@ -134,7 +134,7 @@ public class RealNameAuthController {
 	 */
 	@RequestMapping(value="/toRegister" , method=RequestMethod.GET)
 	public String toRegister(){
-		return "register";
+		return "register/register";
 	}
 	/**
 	 * 执行注册操作
@@ -164,7 +164,7 @@ public class RealNameAuthController {
 	 */
 	@RequestMapping(value="/toCheckMessage" , method=RequestMethod.GET)
 	public String toCheckMessage(){
-		return"checkMessage";
+		return"checkName/checkMessage";
 	}
 	
 	/**
@@ -183,7 +183,7 @@ public class RealNameAuthController {
 		 }
 		 com.zxhy.xjl.rna.business.RealNameAuthTask task  = this.realNameAuthBusiness.getRealNameAuthTask(phone);//获取taskID
 		 this.realNameAuthBusiness.checkRealName(phone,cardId,name,task.getTaskId());//执行核名操作
-		 return "login";
+		 return "logon/login";
 	}
 	
 	/**
@@ -215,7 +215,7 @@ public class RealNameAuthController {
 	 */
 	@RequestMapping(value="/toUpdatePassword" , method=RequestMethod.GET)
 	public String toUpdatePassword(){
-		return "forgetPassword";
+		return "forgetPassword/forgetPassword";
 	}
 	/**
 	 * 执行密码修改操作
