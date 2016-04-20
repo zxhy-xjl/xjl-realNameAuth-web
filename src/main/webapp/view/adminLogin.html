@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html> 
+<head>
+<meta charset="UTF-8">
+<title>登录</title>
+<link rel="stylesheet" href="../../css/jquery-ui.css" media="screen" >
+<link rel="stylesheet" href="../../css/style.css" media="screen" >
+<script type="text/javascript" src="../../js/jquery-2.2.2.js"></script>
+<script type="text/javascript" src="../../js/jquery-ui.js"></script>
+<script type="text/javascript" src="../../js/jquery-rest.js"></script>
+<script type="text/javascript">
+    /**
+     * 初始化
+     */
+	$(function() {
+		//按钮样式
+	    $("button").button()
+	      .click(function( event ) {
+	        event.preventDefault();
+	      });
+	});	
+	/**
+     * 登录
+     */
+    function doLogin(){
+    	var accountNumber=$("#accountNumber");
+    	var pwd=$("#pwd");
+    	if(accountNumber.val()==""){
+    		showError('对不起,账号不能为空！');
+    		return;
+    	}
+    	if(pwd.val()==""){
+    		showError('对不起,密码不能为空！');
+    		return;
+    	}
+    	//隐藏错误提示
+		hideError();
+    	//执行登录操作
+		$.restPost({
+			 type:'post',
+			 dataType: 'json',
+			 url:'../../rest/realNameAuth/doLogonAdmin',
+			 data:{'accountNumber':accountNumber.val(),'passwd':pwd.val()},
+			 success:function(data){
+				 if(null!=data){
+					 if(data.result.indexOf("success")!=-1){
+						 window.location.href='../../rest/realNameAuth/toIndex';
+					 }else{
+						showError(data.msg);
+					 } 
+				 }
+			 }		 
+		});
+    }
+    /**
+     * 显示错误提示信息
+     */
+	function showError(content){
+		var showError=$("#showError");
+		showError.show();
+		showError.html(content);
+	}
+	/**
+     * 隐藏错误提示信息
+     */
+	function hideError(){
+		var showError=$("#showError");
+		showError.hide();
+	}
+</script>
+</head>
+<body>
+<table style="width:100%"  class="table_class">
+	<tr >
+		<td class="showError" align="center" >
+			<div id="showError" class="showError_div"></div>
+		</td>
+	</tr>
+	<tr>
+		<td>管理员账号：<input id="accountNumber" class="input" name="accountNumber" type="text"/></td>
+	</tr>
+	<tr>
+		<td>密&nbsp;&nbsp;&nbsp;&nbsp;码：<input id="pwd" class="input" name="passwd" type="password"/></td>
+	</tr>
+	<tr >
+		<td><button id="login" class="button"  onclick="doLogin()">登录</button>
+	</tr>
+	<tr>
+		<td class="showError" align="center" >
+			<div id="showError" class="showError_div"></div>
+		</td>
+	</tr>
+</table>
+</body>
+</html>
