@@ -35,29 +35,22 @@
 		hideError();
 		//发送验证码
 		$.restPost({
-			 type:'post',
-			 contentType:'application/json;charset=utf-8',
-			 dataType: 'json',
-			 url:'../../rest/realNameAuth/sendCode',
-			 data:{'phone':phone.val()},
+			 url:'../../rest/realNameAuth/sendCode/' + phone.val(),
+			 data:{},
 			 success:function(data){
 			 	var sendCode = $("#sendCode");
-				if(null!=data){
-					if(data.result.indexOf("success")!=-1){
-						showError("短信已经发送至您的手机，请查收!");
-						//停止按钮事件
-						sendCode.attr("disabled","disabled");
-						//改变按钮背景颜色
-						sendCode.css('background','#B5B5B5');
-						//调用倒计时
-						count=121;
-						countDown();
-						$("#sign").val('');
-					}else{
-						showError(data.msg);
-					}
-					
-				}
+				showError("短信已经发送至您的手机，请查收!");
+				//停止按钮事件
+				sendCode.attr("disabled","disabled");
+				//改变按钮背景颜色
+				sendCode.css('background','#B5B5B5');
+				//调用倒计时
+				count=121;
+				countDown();
+				$("#sign").val('');
+			 },
+			 error:function(XMLHttpRequest, textStatus, errorThrown){
+				 $.restError(XMLHttpRequest, textStatus, errorThrown);
 			 }
 		});
 	}
