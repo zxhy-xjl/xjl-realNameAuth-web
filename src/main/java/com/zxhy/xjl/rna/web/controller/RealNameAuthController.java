@@ -244,7 +244,7 @@ public class RealNameAuthController {
 		return task;
 	}
 	@ResponseBody
-	@RequestMapping("/finishTask")
+	@RequestMapping("/finishTask") 
 	public RealNameAuthTask finishTask(
 			@RequestParam(name="phone") String phone, 
 			@RequestParam(name="passwd") String passwd,
