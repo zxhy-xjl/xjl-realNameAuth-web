@@ -1,17 +1,9 @@
 /* Table*/
 .table_class{
 	text-align:center;
-	margin:15% 0 0 0%;
-	padding:5px;
-	height:250px;
-	border:0px; 
-}
-/* check Face*/
-.checkFaceTable_class{
-	text-align:center;
 	margin:10% 0 0 0%;
 	padding:5px;
-	border:0px; 
+	height:250px;
 }
 .td_class{
 	width:50%;
