@@ -16,7 +16,7 @@
 	 */
 	$(function() {
 		$("#phone").val(getQueryString("phone"));
-		onLoad();
+		onWebLoad();
 		//按钮样式
 	    $("#button,#uploadId").button()
 	      .click(function( event ) {
@@ -83,13 +83,18 @@
 		}
 		$("#uploadFile").submit();
 	}
+	/**
+     * 获取url请求参数
+     */
 	function getQueryString(name) {
 	    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
 	    var r = window.location.search.substr(1).match(reg);
 	    if (r != null) return unescape(r[2]); return null;
     }
-	
-	function onLoad(){
+	/**
+     * 初始化WebUpload
+     */
+	function onWebLoad(){
 		var $ = jQuery,
 	    $list = $('#fileList'),
 	    // 优化retina, 在retina下这个值是2
