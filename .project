@@ -6,6 +6,9 @@
 		<project>xjl-realNameAuth-core</project>
 		<project>workflow</project>
 		<project>xjl-notification-verifyCode</project>
+		<project>xjl-workflow</project>
+		<project>xjl-realNameAuth-controller</project>
+		<project>xjl-sso</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
