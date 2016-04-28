@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html> 
+<head>
+<meta charset="UTF-8">
+<title>人工审核页面</title>
+<link rel="stylesheet" href="../../css/jquery-ui.css" media="screen" >
+<link rel="stylesheet" href="../../css/style.css" media="screen" >
+<script type="text/javascript" src="../../js/jquery-2.2.2.js"></script>
+<script type="text/javascript" src="../../js/jquery-ui.js"></script>
+<script type="text/javascript" src="../../js/jquery-rest.js"></script>
+<script type="text/javascript">
+    /**
+     * 初始化
+     */
+	$(function() {
+		//按钮样式
+	    $("button").button()
+	      .click(function( event ) {
+	        event.preventDefault();
+	      });
+	});	
+	/**
+     * 获取页面传过来的参数
+     */
+    function doShenHe(){
+    	var a=getQueryString("a");
+    	alert(a);
+    }
+ 
+	/**
+	 * 获取url请求参数
+	 */
+	function getQueryString(name) {
+	    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+	    var r = window.location.search.substr(1).match(reg);
+	    if (r != null) return unescape(r[2]); return null;
+	}
+</script>
+</head >
+<body onload='doShenHe()'>
+ <p>&nbsp;</p>
+ <p>&nbsp;</p>
+ <p>&nbsp;</p>
+ 批准方式 &nbsp; &nbsp;&nbsp;&nbsp;申请人&nbsp;&nbsp;&nbsp;&nbsp;提交时间&nbsp;&nbsp; &nbsp;&nbsp;审核结果&nbsp;&nbsp;&nbsp; &nbsp;审核 
+</body>
+</html>

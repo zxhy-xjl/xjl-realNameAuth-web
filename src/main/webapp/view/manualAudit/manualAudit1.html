@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html> 
+<head>
+<meta charset="UTF-8">
+<title>人工审核页面</title>
+<link rel="stylesheet" href="../../css/jquery-ui.css" media="screen" >
+<link rel="stylesheet" href="../../css/style.css" media="screen" >
+<script type="text/javascript" src="../../js/jquery-2.2.2.js"></script>
+<script type="text/javascript" src="../../js/jquery-ui.js"></script>
+<script type="text/javascript" src="../../js/jquery-rest.js"></script>
+<script type="text/javascript">
+    /**
+     * 初始化
+     */
+	$(function() {
+		//按钮样式
+	    $("button").button()
+	      .click(function( event ) {
+	        event.preventDefault();
+	      });
+	});	
+    function toExamine(a){
+    window.parent._list.location.href='../manualAudit/manualAudit2.html?a='+a;
+    
+    }
+</script>
+
+
+
+</head>
+<body>
+  <p>&nbsp;</p>
+<ul>
+                        <li>
+                            <div >实名认证人工审核</div>
+                            <p>&nbsp;</p>
+                            <dl>
+                                <dd>
+                                    <a href="#"  onclick="toExamine(1)" >审核中</a>
+                                    <p>&nbsp;</p>
+                                </dd>
+                                <dd>
+                                    <a href="#"  onclick="toExamine(2)" >审核通过</a>
+                                      <p>&nbsp;</p>
+                                </dd>
+                                 <dd>
+                                    <a href="#"  onclick="toExamine(3)">审核不通过</a>
+                                      <p>&nbsp;</p>
+                                </dd>
+                            </dl>
+                        </li>
+ </ul>
+</body>
+</html>
