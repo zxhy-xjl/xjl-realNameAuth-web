@@ -53,7 +53,9 @@
 			 url:'../../rest/realNameAuth/checkID',
 			 data:{'phone':getQueryString("phone"),'name':name.val(),'id':cardId.val()},
 			 success:function(data){
-				alert(2525);
+				if(true==data){
+					window.location.href="../../view/checkName/checkFace.html?phone="+getQueryString("phone");
+				}
 			 }
 		}); 
 	}
