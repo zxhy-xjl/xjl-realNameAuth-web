@@ -80,24 +80,19 @@
 		$.restPost({
 			 type:'post',
 			 dataType: 'json',
-			 url:'../../rest/realNameAuth/doRegister',
+			 url:'../../rest/realNameAuth/register',
 			 data:{'phone':phone.val(),'code':code.val()},
 			 success:function(data){
 				 $("#loading").hide();
 				 $("#progressBar").hide();
 				 var sendCode = $("#sendCode");
-				 if(null!=data){
-					 if(data.result.indexOf("success")!=-1){
-						 window.location.href='../../view/checkMessage.html?phone='+data.result_phone;
-					 }else{
-						//停止按钮事件
-						sendCode.removeAttr("disabled");
-						//改变按钮背景颜色
-						sendCode.css('background','#F6F6F6');
-						$("#code").val(' ');
-						showError(data.msg);
-					 } 
-				 }
+				//停止按钮事件
+				sendCode.removeAttr("disabled");
+				//改变按钮背景颜色
+				sendCode.css('background','#F6F6F6');
+				$("#code").val(' ');
+				showError(data.msg);
+				 window.location.href='../../view/checkName/checkMessage.html?phone='+phone.val();
 			 }
 		}); 
 	}
