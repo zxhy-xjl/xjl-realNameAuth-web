@@ -54,7 +54,7 @@
 			 data:{'phone':getQueryString("phone"),'name':name.val(),'id':cardId.val()},
 			 success:function(data){
 				if(true==data){
-					window.location.href="../../view/checkName/checkFace.html?phone="+getQueryString("phone");
+					window.location.href="../../view/checkName/checkFace.html?phone="+getQueryString("phone")+"&cardId="+cardId.val();
 				}
 			 }
 		}); 

@@ -110,7 +110,7 @@ function photo(){
 function doFlash(){
 	var MyCan= thisMovie("My_Cam");
 	var base64Data = MyCan.GetBase64Code();
-	var data={"base64Face":base64Data,"phone":getQueryString("phone")};
+	var data={"base64Face":base64Data,"phone":getQueryString("phone"),"idCode":getQueryString("cardId")};
 	 $.restPost({
 		 type:'post',
 		 dataType: 'json',
