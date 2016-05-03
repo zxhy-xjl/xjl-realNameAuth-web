@@ -18,7 +18,14 @@
 	        event.preventDefault();
 	      });
 	});	
-
+	/**
+	 * 打开上传页面 
+	 */
+	function openWin(){
+		window.showModalDialog("reportingUploadFile.html","dialogWidth=100px;dialogHeight=20px");
+	}
+	
+   
 </script>
 </head>
 <body>
@@ -32,15 +39,15 @@
 			<table style="width:30%;margin-right:6%;"   border="0">
 				<tr>
 					<td align="right">材料一</td>
-					<td align="right"><input id="file_1"   type="button" value="上传"></td>
+					<td align="right"><input id="file_1"   type="button" value="上传" onclick="openWin();"></td>
 				</tr>
 				<tr>
 					<td align="right">材料二</td>
-					<td align="right"><input id="file_2"  type="button" value="上传"></td>
+					<td align="right"><input id="file_2"  type="button" value="上传" onclick="openWin();"></td>
 				</tr>
 				<tr>
 					<td align="right">材料三</td>
-					<td align="right"><input id="file_2"   type="button" value="上传"></td>
+					<td align="right"><input id="file_2"   type="button" value="上传" onclick="openWin();"></td>
 				</tr>
 			</table>
 		</td>

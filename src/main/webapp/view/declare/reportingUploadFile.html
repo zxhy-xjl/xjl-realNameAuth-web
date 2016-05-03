@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>上传附件</title>
+<link rel="stylesheet" href="../../css/jquery-ui.css" media="screen" >
+<link rel="stylesheet" href="../../css/style.css" media="screen" >
+<script type="text/javascript" src="../../js/jquery-2.2.2.js"></script>
+<script type="text/javascript" src="../../js/jquery-ui.js"></script>
+<script type="text/javascript">
+	/**
+	 * 初始化
+	 */
+	$(function() {
+		//按钮样式
+	    $("input[type=button]").button()
+	      .click(function( event ) {
+	        event.preventDefault();
+	      });
+	});	
+	/**
+	 * 新增上传文件框 
+	 */
+	function addFile(){
+		var num=GetRandomNum(1,100*1000);
+		var fileText="<tr id='tr"+num+"' ><td align='right'></td><td align='left'><input id='file_1' type='file'></td><td align='left' width='30%' ><img width='16'height='16' src='../../images/cancel.png' onclick='removeFile(\"tr"+num+"\");'></td></tr>";
+		$("#reportingTab tbody").prepend(fileText);
+	}
+	/**
+	 * 删除上传文件框 
+	 */
+	function removeFile(id){
+		var obj=$("#"+id);
+		if(null!=obj){
+			obj.remove();
+		}
+	}
+	/**
+	 * 获取随机数 
+	 */
+	function GetRandomNum(Min,Max){   
+		var Range = Max - Min;   
+		var Rand = Math.random();   
+		return(Min + Math.round(Rand * Range));   
+	}   
+</script>
+</head>
+<body>
+<table id="reportingTab" style="width:100%;height:auto;"  class="table_class" border="0">
+<thead>
+	<tr>
+		<td width="25%" align="right">材料名称：</td>
+		<td width="35%" colspan="3"></td>
+	</tr>
+	<tr id="files">
+		<td align="right">材料文件：</td>
+		<td align="left"><input id="file_1" type="file"></td>
+		<td align="left" width="30%" ><img width="16" height="16"  src="../../images/edit_add.png" onclick="addFile();"></td>
+	</tr>
+</thead>
+<tbody>
+<tr>
+	<td colspan="3">
+		<input id="" type="button" value="确定">
+		<input id="" type="button" value="取消">
+	</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>
