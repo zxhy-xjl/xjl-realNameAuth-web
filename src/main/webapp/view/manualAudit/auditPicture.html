@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html> 
+<head>
+<meta  charset="UTF-8" >
+<title>人工审核页面</title>
+<script type="text/javascript" src="../../js/jquery-2.2.2.js"></script>
+<script type="text/javascript" src="../../js/jquery-ui.js"></script>
+<script type="text/javascript" src="../../js/jquery-rest.js"></script>
+<script type="text/javascript">
+   
+    /**
+     * 初始化
+     */
+	$(function() {
+		//按钮样式
+	    $("button").button()
+	      .click(function( event ) {
+	        event.preventDefault();
+	      });
+	});	
+ 
+</script>
+<style type="text/css">
+.main td{ height:45px; }
+</style>
+</head >
+<body >
+ <p>&nbsp;</p>
+  <div align="center">
+    <table width="230" border="0">
+    <tr>
+    <td height="56"><div align="center">身份证照片</div></td>
+      <td><div align="center">上传的照片</div></td>
+    </tr>
+      <tr>
+        <td width="109" height="233"><div align="center"><img class="imgClass" alt="" src="../../images/photo.png" width="279" height="210" /></div></td>
+        <td width="105"><div align="center"><img class="imgClass" alt="" src="../../images/find.png" width="279" height="210" /></div></td>
+      </tr>
+      <tr>
+        <td height="104"><form id="form1" name="form1" method="post" action="">
+         
+        </form></td>
+        <td><form id="form2" name="form2" method="post" action="">
+          <div align="center">
+           <input type="submit" name="no" id="no" value="审核通过" /> &nbsp;&nbsp;
+             <input type="submit" name="no" id="no" value="审核不通过" />
+          </div>
+        </form></td>
+      </tr>
+  </table>
+    
+  </div>
+</body>
+</html>
