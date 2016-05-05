@@ -18,7 +18,9 @@
 	        event.preventDefault();
 	      });
 	});	
- 
+  function (content){
+	  alert(content);
+  }
 </script>
 <style type="text/css">
 .main td{ height:45px; }
@@ -42,9 +44,9 @@
         </form></td>
         <td><form id="form2" name="form2" method="post" action="">
           <div align="center">
-           <input type="submit" name="no" id="no" value="审核通过" /> &nbsp;&nbsp;
-             <input type="submit" name="no" id="no" value="审核不通过" />
-          </div>
+           <input type="button" name="no" id="no" value="审核通过"   onclick="doAudit(yes)"/> &nbsp;&nbsp;
+             <input type="submit" name="no" id="no" value="审核不通过"  onclick="doAudit(no)" />
+          </div> 
         </form></td>
       </tr>
   </table>
