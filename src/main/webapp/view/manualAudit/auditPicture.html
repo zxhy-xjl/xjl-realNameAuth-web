@@ -18,15 +18,45 @@
 	        event.preventDefault();
 	      });
 	});	
-  function (content){
-	  alert(content);
-  }
+    var aa;
+    var bb;
+	 function pageData(){
+		 var a=getQueryString("a");
+		 var b=getQueryString("b");
+		 document.getElementById('aphoto').setAttribute("src",a);
+		 document.getElementById('bphoto').setAttribute("src",b);
+	 }
+  /**
+	 * 获取url请求参数
+	 */
+	function getQueryString(name) {
+	    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+	    var r = window.location.search.substr(1).match(reg);
+	    if (r != null) return unescape(r[2]); return null;
+	}
+  
+	function  doAudit(content){
+	  var phone=getQueryString("c");
+		$.restPost({
+			 type:'post',
+			 dataType: 'json',
+			 contentType : "application/json",
+			 url:'../../rest/realNameAuth/manualAuditState',
+			 data:{'phone':phone,
+				   'processName':content
+				   },
+			 success:function(data){
+		 }
+		});
+		alert("操作成功");
+		window.location.href='../manualAudit/manualAudit.html';
+	}
 </script>
 <style type="text/css">
 .main td{ height:45px; }
 </style>
 </head >
-<body >
+<body onload='pageData()'>
  <p>&nbsp;</p>
   <div align="center">
     <table width="230" border="0">
@@ -35,8 +65,8 @@
       <td><div align="center">上传的照片</div></td>
     </tr>
       <tr>
-        <td width="109" height="233"><div align="center"><img class="imgClass" alt="" src="../../images/photo.png" width="279" height="210" /></div></td>
-        <td width="105"><div align="center"><img class="imgClass" alt="" src="../../images/find.png" width="279" height="210" /></div></td>
+        <td width="109" height="233"><div align="center"><img class="imgClass" id="aphoto" alt="身份证照片"   width="279" height="210" /></div></td>
+        <td width="105"><div align="center"><img class="imgClass" id="bphoto" alt="上传照片"  width="279" height="210" /></div></td>
       </tr>
       <tr>
         <td height="104"><form id="form1" name="form1" method="post" action="">
@@ -44,13 +74,9 @@
         </form></td>
         <td><form id="form2" name="form2" method="post" action="">
           <div align="center">
-           <input type="button" name="no" id="no" value="审核通过"   onclick="doAudit(yes)"/> &nbsp;&nbsp;
-             <input type="submit" name="no" id="no" value="审核不通过"  onclick="doAudit(no)" />
+           <input type="button" name="yes" id="yes" value="审核通过"   onclick="doAudit('yes')"/> &nbsp;&nbsp;
+           <input type="button" name="no"  id="no"  value="审核不通过"  onclick="doAudit('no')"/>  &nbsp;&nbsp;
+            <input type="submit" style="display:none;"/>  &nbsp;&nbsp;
           </div> 
         </form></td>
       </tr>
-  </table>
-    
-  </div>
-</body>
-</html>
